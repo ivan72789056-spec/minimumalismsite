@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Minimalism in Web Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--fg:#0a0a0a;--muted:#9a9a9a;--ring:#8a8a8a;--card:#fff;--line:#e5e5e5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101012;--fg:#f5f5f5;--muted:#8d8d93;--ring:#8a8a8a;--card:#1a1a1d;--line:#333}}
+:root[data-theme="dark"]{--bg:#101012;--fg:#f5f5f5;--muted:#8d8d93;--ring:#8a8a8a;--card:#1a1a1d;--line:#333}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:'Nunito',system-ui,sans-serif;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 60px}
+.blob{position:absolute;border-radius:50%;filter:blur(45px);pointer-events:none}
+.b1{width:320px;height:320px;left:-60px;bottom:-110px;background:#2fe0b0;opacity:.85}
+.b2{width:220px;height:200px;left:26%;top:12%;background:#ffe9a8;opacity:.7}
+.b3{width:340px;height:340px;right:-90px;top:-30px;background:#ff4d7a;opacity:.8}
+.b4{width:300px;height:260px;right:6%;top:36%;background:#ffa87a;opacity:.55}
+.ring{position:absolute;border:2px solid var(--ring);border-radius:50%;pointer-events:none;transition:border-color .3s,border-width .3s,box-shadow .3s}
+.ring.r1{width:380px;height:380px;left:-200px;bottom:-110px}
+.ring.r2{width:370px;height:370px;right:-190px;top:30%}
+.ring.hot{border-color:var(--fg);border-width:3px;box-shadow:0 0 40px rgba(0,0,0,.25)}
+.dots{position:absolute;left:105px;top:52px;width:40px;height:30px;background-image:radial-gradient(var(--fg) 1.3px,transparent 1.7px);background-size:8px 7px}
+.theme{position:absolute;right:30px;top:30px;width:44px;height:44px;border-radius:50%;border:2px solid var(--fg);background:none;color:var(--fg);font-size:20px;cursor:pointer;display:grid;place-items:center;z-index:5;transition:transform .3s}
+.theme:hover{transform:rotate(25deg) scale(1.08)}
+.sec{max-width:980px;margin:0 auto;padding:90px 24px;text-align:center}
+.sec h3{font-size:clamp(30px,5vw,48px);font-weight:800;margin-bottom:14px}
+.sec>p{margin:0 auto 36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;text-align:left}
+.tile{border:2px solid var(--fg);border-radius:28px;padding:26px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.tile h4{font-size:22px;font-weight:700}
+.tile p{margin:0;max-width:none;font-size:15px}
+.tile button,.send{font:600 16px 'Nunito',sans-serif;border:2px solid var(--fg);background:none;color:var(--fg);border-radius:40px;padding:10px 24px;cursor:pointer;align-self:flex-start;margin-top:6px;transition:background .2s,color .2s}
+.tile button:hover,.send:hover{background:var(--fg);color:var(--bg)}
+.sec form{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.sec input,.sec textarea{font:400 16px 'Nunito',sans-serif;padding:13px 18px;border-radius:20px;border:2px solid var(--line);background:transparent;color:var(--fg)}
+.sec .send{align-self:center}
+footer{text-align:center;padding:30px 20px 60px;color:var(--muted);font-size:14px}
+footer button{display:block;margin:0 auto 14px;font:600 15px 'Nunito',sans-serif;border:2px solid var(--line);background:none;color:var(--fg);border-radius:30px;padding:8px 20px;cursor:pointer}
+nav{position:absolute;top:46px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;white-space:nowrap}
+nav button{font:400 17px 'Nunito',sans-serif;color:var(--fg);background:none;border:2px solid transparent;border-radius:40px;padding:12px 25px;cursor:pointer;transition:border-color .25s}
+nav button.on{border-color:var(--fg);padding:14px 25px}
+h1{position:relative;font-weight:800;font-size:clamp(44px,10.5vw,112px);line-height:1;letter-spacing:-1px}
+h2{position:relative;font-weight:400;font-size:clamp(24px,4.2vw,42px);margin:12px 0 30px}
+p{position:relative;max-width:470px;color:var(--muted);font-size:15px;line-height:1.55;margin-bottom:36px}
+.cta{position:relative;display:flex;align-items:center}
+.cta button{font:400 22px 'Nunito',sans-serif;color:var(--fg);background:transparent;border:2px solid var(--fg);border-radius:40px;padding:12px 28px;cursor:pointer;display:flex;gap:12px;align-items:center;transition:background .2s,color .2s}
+.cta button+button{margin-left:-14px}
+.cta button:hover{background:var(--fg);color:var(--bg)}
+.ch{display:inline-block;will-change:transform}
+.fx{display:inline-block;will-change:transform}
+#orb{position:fixed;left:0;top:0;width:110px;height:110px;margin:-55px 0 0 -55px;border-radius:50%;pointer-events:none;z-index:50;opacity:0;background:radial-gradient(circle,#000 0 38%,rgba(20,0,40,.85) 52%,rgba(120,60,255,.35) 70%,transparent 72%);box-shadow:0 0 60px 20px rgba(110,40,255,.35)}
+#lens{position:fixed;left:0;top:0;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;pointer-events:none;z-index:50;opacity:0;border:1.5px solid var(--fg);background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal.open{display:flex}
+.card{background:var(--card);border-radius:24px;padding:28px;width:100%;max-width:360px;border:1px solid var(--line)}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
+.tabs button{flex:1;font:600 16px 'Nunito',sans-serif;padding:10px;border-radius:30px;border:2px solid var(--line);background:none;color:var(--fg);cursor:pointer}
+.tabs button.on{border-color:var(--fg)}
+.card input{width:100%;font:400 16px 'Nunito',sans-serif;padding:12px 16px;margin-bottom:12px;border-radius:14px;border:1.5px solid var(--line);background:transparent;color:var(--fg)}
+.card .go{width:100%;font:700 17px 'Nunito',sans-serif;padding:13px;border-radius:30px;border:0;background:var(--fg);color:var(--bg);cursor:pointer}
+.x{float:right;background:none;border:0;font-size:22px;color:var(--muted);cursor:pointer}
+#toast{position:fixed;bottom:30px;left:50%;transform:translate(-50%,30px);background:var(--fg);color:var(--bg);padding:12px 22px;border-radius:30px;opacity:0;transition:.3s;z-index:200;font-weight:600}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:700px){nav{top:70px;gap:0}nav button{padding:10px 12px;font-size:14px}nav button.on{padding:12px 12px}.dots{left:20px}}
+</style>
+</head>
+<body>
+<section class="hero" id="hero">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+  <div class="ring r1" id="r1"></div><div class="ring r2" id="r2"></div>
+  <div class="dots fx" data-fx></div>
+  <button class="theme" id="theme" aria-label="Сменить тему">☾</button>
+  <nav id="nav" data-fx>
+    <button data-t="about">About</button><button data-t="services">Services</button><button class="on" data-t="hero">Home</button><button data-t="contact">Contact</button><button data-t="reviews">Reviews</button>
+  </nav>
+  <h1 id="t1" data-fx>MINIMALISM</h1>
+  <h2 id="t2" data-fx>in Web Design</h2>
+  <p id="t3" data-fx>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+  <div class="cta" data-fx>
+    <button id="login">Login <svg width="26" height="16" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h23M17 1l7 7-7 7"/></svg></button>
+    <button id="signup">Signup</button>
+  </div>
+</section>
+
+<section class="sec" id="about">
+  <h3>О нас</h3>
+  <p>Мы верим, что хороший дизайн — это когда нет ничего лишнего. Чистые формы, много воздуха и один акцент: всё, чтобы сайт говорил сам за себя.</p>
+</section>
+<section class="sec" id="services">
+  <h3>Услуги</h3>
+  <div class="grid">
+    <div class="tile"><h4>Дизайн</h4><p>Минималистичные интерфейсы с акцентом на типографику и пространство.</p><button data-n="Дизайн">Выбрать</button></div>
+    <div class="tile"><h4>Разработка</h4><p>Быстрая адаптивная вёрстка и аккуратная анимация без перегруза.</p><button data-n="Разработка">Выбрать</button></div>
+    <div class="tile"><h4>Поддержка</h4><p>Обновления, правки и доработки, когда проект уже запущен.</p><button data-n="Поддержка">Выбрать</button></div>
+  </div>
+</section>
+<section class="sec" id="reviews">
+  <h3>Отзывы</h3>
+  <div class="grid">
+    <div class="tile"><p>«Сайт стал в разы понятнее, клиенты сразу видят главное.»</p><h4>Анна</h4></div>
+    <div class="tile"><p>«Очень чисто и быстро. Ничего лишнего, как и просили.»</p><h4>Максим</h4></div>
+    <div class="tile"><p>«Тёмная тема и анимации — отдельное удовольствие.»</p><h4>Ольга</h4></div>
+  </div>
+</section>
+<section class="sec" id="contact">
+  <h3>Контакты</h3>
+  <p>Напишите нам, и мы ответим в течение дня.</p>
+  <form onsubmit="return false">
+    <input type="text" placeholder="Ваше имя">
+    <input type="email" placeholder="Email">
+    <textarea rows="4" placeholder="Сообщение"></textarea>
+    <button class="send" id="send" type="button">Отправить</button>
+  </form>
+</section>
+<footer><button id="up">↑ Наверх</button>© 2026 Minimalism. Все права защищены.</footer>
+<div id="lens"></div>
+
+<div class="modal" id="modal">
+  <div class="card">
+    <button class="x" id="close">×</button>
+    <div class="tabs"><button id="tl" class="on">Login</button><button id="ts">Signup</button></div>
+    <input type="email" placeholder="Email"><input type="password" placeholder="Пароль">
+    <input id="name" type="text" placeholder="Имя" style="display:none">
+    <button class="go" id="go">Войти</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove('show'),1800)}
+// nav
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById(b.dataset.t).scrollIntoView({behavior:'smooth'})});
+// modal
+const modal=$('#modal');let mode='login';
+function setMode(m){mode=m;$('#tl').classList.toggle('on',m=='login');$('#ts').classList.toggle('on',m=='signup');$('#name').style.display=m=='signup'?'block':'none';$('#go').textContent=m=='login'?'Войти':'Создать аккаунт'}
+function openM(m){setMode(m);modal.classList.add('open')}
+$('#login').onclick=()=>openM('login');$('#signup').onclick=()=>openM('signup');
+$('#tl').onclick=()=>setMode('login');$('#ts').onclick=()=>setMode('signup');
+$('#close').onclick=()=>modal.classList.remove('open');
+modal.onclick=e=>{if(e.target==modal)modal.classList.remove('open')};
+$('#go').onclick=()=>{modal.classList.remove('open');toast(mode=='login'?'Вы вошли!':'Аккаунт создан!')};
+
+// split text into animatable pieces
+function split(el,words){const txt=el.textContent;el.textContent='';el.setAttribute('aria-label',txt);
+  (words?txt.split(' '):[...txt]).forEach((c,i,a)=>{const s=document.createElement('span');s.className='ch';s.textContent=c==' '?'\u00a0':c;el.appendChild(s);if(words&&i<a.length-1)el.appendChild(document.createTextNode(' '))})}
+split($('#t1'));split($('#t2'));split($('#t3'),true);
+
+let T=[];
+function measure(){T=[...document.querySelectorAll('.ch,nav button,.cta button,.dots')];
+  T.forEach(e=>e.style.transform='');
+  T.forEach(e=>{const r=e.getBoundingClientRect();e._c=[r.left+r.width/2,r.top+r.height/2]})}
+addEventListener('resize',measure);addEventListener('scroll',measure,{passive:true});
+document.fonts.ready.then(measure);setTimeout(measure,300);
+
+let mx=-999,my=-999,fT=0,hT=0,f=0,h=0;
+const rings=[$('#r1'),$('#r2')],lens=$('#lens');
+addEventListener('pointermove',e=>{
+  mx=e.clientX;my=e.clientY;
+  let onRing=false;
+  rings.forEach(r=>{const b=r.getBoundingClientRect(),R=b.width/2,d=Math.hypot(mx-(b.left+R),my-(b.top+R));const hot=Math.abs(d-R)<28;r.classList.toggle('hot',hot);if(hot)onRing=true});
+  const onFx=!!e.target.closest('[data-fx]');
+  hT=0;fT=(onRing||onFx)?1:0;
+});
+document.addEventListener('pointerleave',()=>{hT=fT=0;mx=my=-999});
+function loop(){
+  f+=(fT-f)*.12;h+=(hT-h)*.1;
+  if(f>.002||h>.002||loop.dirty){
+    const R=190;
+    T.forEach(e=>{
+      const [cx,cy]=e._c,dx=mx-cx,dy=my-cy,d=Math.hypot(dx,dy)||1,t=Math.max(0,1-d/R),k=t*t*(3-2*t);
+      // fisheye: bulge + push outward
+      let sc=1+.25*k*f,tx=-dx/d*k*7*f,ty=-dy/d*k*7*f,rot=0,op=1;
+      e.style.transform=`translate(${tx}px,${ty}px) rotate(${rot}deg) scale(${Math.max(sc,.05)})`;
+      e.style.opacity=op;
+    });
+    loop.dirty=(f>.002||h>.002);
+  }
+  
+  lens.style.opacity=f*.7;lens.style.transform=`translate(${mx}px,${my}px) scale(${.6+f*.4})`;
+  
+  requestAnimationFrame(loop)}
+const th=$('#theme'),dk=matchMedia('(prefers-color-scheme: dark)');
+function applyTheme(m){document.documentElement.dataset.theme=m;th.textContent=m=='dark'?'☀':'☾'}
+applyTheme(dk.matches?'dark':'light');
+th.onclick=()=>applyTheme(document.documentElement.dataset.theme=='dark'?'light':'dark');
+$('#up').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+document.querySelectorAll('.tile button').forEach(b=>b.onclick=()=>toast('Выбрано: '+b.dataset.n));
+$('#send').onclick=()=>toast('Сообщение отправлено!');
+loop();
+</script>
+</body>
+</html>
